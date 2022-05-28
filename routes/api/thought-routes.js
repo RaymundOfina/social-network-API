@@ -1,24 +1,36 @@
 const router = require('express').Router();
-const {
-  getThoughts,
-  getSingleThought,
-  createThought,
-  updateThought,
-  deleteThought,
-  addReaction,
-  removeReaction,
+const { 
+    getThoughts,
+    getThoughtById,
+    addThought,
+    addReaction,
+    updateThought,
+    removeThought,
+    removeReaction
 } = require('../../controllers/thought-controller');
 
-// /api/thoughts
-router.route('/').get(getThoughts).post(createThought);
+router
+    .route('/')
+    .get(getThoughts);
 
-// /api/thoughts/:thoughtId
-router.route('/:thoughtId').get(getSingleThought).put(updateThought).delete(deleteThought);
+router
+    .route('/:id')
+    .get(getThoughtById)
+    .put(updateThought)
+    .delete(removeThought)
 
-// /api/thoughts/:thoughtId/reactions
-router.route('/:thoughtId/reactions').post(addReaction);
+router
+    .route('/:userId')
+    .post(addThought);
 
-// /api/thoughts/:thoughtId/reactions/:reactionId
-router.route('/:thoughtId/reactions/:reactionId').delete(removeReaction);
+// /api/comments/:<userId/:<thoughtId> *** WE NEED TWO PARAMS BECAUSE WE NEED TO KNOW WHICH user THAT COMMENT CAME FORM
+router
+    .route('/:thoughtId/reactions')
+    .post(addReaction);
+
+// /api/thoughts/:userId/:thoughtId/:replyId
+router
+    .route('/:thoughtId/:reactions/:reactionId')
+    .delete(removeReaction);
 
 module.exports = router;
