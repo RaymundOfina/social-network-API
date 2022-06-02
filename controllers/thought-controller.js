@@ -2,16 +2,13 @@ const { Thought, User } = require('../models');
 
 const thoughtController = {
     getThoughts(req, res) {
-        // mongoose .find() method, very much like sequelize's .findAll()
+        
         Thought.find({})
         .populate({
             path: 'reactions',
-            // removes from thoughts data returned
             select: '-__v'
         })
-        // removes from user data returned
         .select('-__v')
-        // sort in descending order by _id, always giving newest thoughts first order
         .sort({ _id: -1 })
         .then(dbThoughtData => res.json(dbThoughtData))
         .catch(err => {
@@ -28,7 +25,7 @@ const thoughtController = {
         })
         .select('-__v')
         .then(dbThoughtData => {
-            // if no user is found, send 404
+            // Error
             if (!dbThoughtData) {
                 res.status(404).json({ message: 'Unable to locate ID' });
                 return;
@@ -129,10 +126,8 @@ const thoughtController = {
                 res.status(404).json({ message: 'Unable to locate ID' });
                 return
             }
-            // return user data to the user
-            res.json(dbReactionData);
         })        
-        .catch(err => res.json(err));
+        
     }
 };
 
