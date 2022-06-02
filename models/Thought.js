@@ -4,7 +4,7 @@ const dateFormat = require('../utils/dateFormat');
 const ReactionSchema = new Schema (
     {
         reactionId: {
-            // uses the same style of ids, but give it the name replyId
+            
             type: Schema.Types.ObjectId,
             default: () => new Types.ObjectId()
         },
@@ -61,13 +61,3 @@ const ThoughtSchema = new Schema (
         }
     }
 );
-
-// set up a virtual that keeps track of thoughts reactions
-ThoughtSchema.virtual('reactionCount').get(function() {
-    return this.reactions.length;
-})
-
-// create comment model using the comment schema 
-const Thought = model('Thought', ThoughtSchema) 
-
-module.exports = Thought;
